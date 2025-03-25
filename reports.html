@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compliance Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Compliance Reports</h1>
+        <p class="text-center"><a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Dashboard</a></p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h2>Audit Logs</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.action }}</td>
+                        <td>
+                            {% if log.action == 'sent_reminder' or log.action == 'calendar_add' %}
+                                Task: {{ log.task_name }}, Email: {{ log.email }}
+                            {% elif log.action == 'login' or log.action == 'logout' %}
+                                Email: {{ log.email }}
+                            {% elif log.action == 'register' %}
+                                Email: {{ log.email }}, Role: {{ log.role }}
+                            {% elif log.action == 'add_task' %}
+                                Task: {{ log.task_name }}, Assigned To: {{ log.assigned_to }}
+                            {% elif log.action == 'acknowledge_task' or log.action == 'complete_task' %}
+                                Task ID: {{ log.task_id }}, Email: {{ log.email }}
+                            {% elif log.action == 'upload_evidence' %}
+                                Task ID: {{ log.task_id }}, File: {{ log.filename }}, Email: {{ log.email }}
+                            {% endif %}
+                        </td>
+                        <td>{{ log.timestamp|datetimeformat }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

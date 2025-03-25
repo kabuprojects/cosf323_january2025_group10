@@ -1,0 +1,120 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('/static/compliance-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Overlay for readability */
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: #fff !important;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #cce5ff !important;
+}
+
+/* Cards */
+.card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    color: #28a745; /* Green for branding */
+    font-weight: bold;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #28a745; /* Green theme */
+    border-color: #28a745;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+    background-color: #218838; /* Darker green on hover */
+    border-color: #218838;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #fff;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    .hero-section p {
+        font-size: 1rem;
+    }
+    .card {
+        margin-bottom: 20px;
+    }
+    .navbar-brand img {
+        height: 25px;
+    }
+}

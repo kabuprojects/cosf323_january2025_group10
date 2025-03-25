@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Compliance Dashboard</h1>
+        <div class="d-flex justify-content-between mb-3">
+            {% if role in ['IT Admin', 'Compliance Officer'] %}
+                <a href="{{ url_for('add_task') }}" class="btn btn-primary">Add Task</a>
+            {% else %}
+                <span></span>
+            {% endif %}
+            <div>
+                {% if role in ['IT Admin', 'Compliance Officer'] %}
+                    <a href="{{ url_for('reports') }}" class="btn btn-info me-2">View Reports</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h2>Your Tasks</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Frequency</th>
+                    <th>Compliance Ref</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.name }}</td>
+                        <td>{{ task.frequency }}</td>
+                        <td>{{ task.compliance_ref }}</td>
+                        <td>{{ task.due_date|datetimeformat }}</td>
+                        <td>
+                            {% if task.completed %}
+                                Completed
+                            {% elif datetime.now() > task.due_date %}
+                                Overdue
+                            {% else %}
+                                Pending
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not task.acknowledged %}
+                                <form action="{{ url_for('acknowledge_task', task_id=task._id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-info btn-sm">Acknowledge</button>
+                                </form>
+                            {% endif %}
+                            {% if not task.completed %}
+                                <form action="{{ url_for('complete_task', task_id=task._id) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-success btn-sm">Complete</button>
+                                </form>
+                            {% endif %}
+                            {% if task.completed and task.evidence %}
+                                <span class="badge bg-success">Evidence Uploaded</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
