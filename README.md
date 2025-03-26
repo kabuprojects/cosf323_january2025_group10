@@ -1,4 +1,5 @@
-Compliance Reminder System
+**Compliance Reminder System**
+
 A web-based application designed to manage compliance tasks under NIST (e.g., NIST SP 800-53) and ISO (e.g., ISO/IEC 27001) frameworks. It sends automated monthly and yearly reminders, tracks task completion, and logs actions for audit purposes. This version includes user authentication (login/register) and a basic static interface.
 
 Features
